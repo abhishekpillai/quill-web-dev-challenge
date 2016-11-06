@@ -13,7 +13,7 @@ class PassageInputForm extends Component {
   }
 
   handleNext(event) {
-    alert('Text field value is: ' + this.state.passage);
+    this.props.onNextButtonClick(this.state.passage);
   }
 
   render () {

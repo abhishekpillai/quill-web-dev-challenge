@@ -5,6 +5,19 @@ import './App.css';
 import PassageInputForm from './components/PassageInputForm'
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      passage: '',
+      passageWithErrors: '',
+    };
+    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+  }
+
+  handleNextButtonClick(passage) {
+    this.setState({ passage: passage });
+  }
+
   render() {
     return (
       <div className="App">
@@ -12,7 +25,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to the Quill Web Dev Challenge</h2>
         </div>
-        <PassageInputForm />
+        <PassageInputForm onNextButtonClick={this.handleNextButtonClick} />
       </div>
     );
   }
