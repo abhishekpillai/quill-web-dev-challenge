@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class PassageInputForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {passage: ''};
+    this.state = {passage: props.passage};
     this.handleChange = this.handleChange.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
@@ -21,8 +21,8 @@ class PassageInputForm extends Component {
       <div>
         <textarea
           onChange={this.handleChange}
-          placeholder="Please enter a passage"
-        />
+          value={this.state.passage}
+          placeholder="Please enter a passage" />
 
         <button onClick={this.handleNext} >
           Next

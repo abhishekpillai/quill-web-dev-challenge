@@ -28,7 +28,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to the Quill Web Dev Challenge</h2>
         </div>
-        <PassageInputForm onNextButtonClick={this.handleNextButtonClick} />
+        <PassageInputForm
+          passage={this.state.passage}
+          onNextButtonClick={this.handleNextButtonClick} />
       </div>
     );
   }
