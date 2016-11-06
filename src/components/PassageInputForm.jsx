@@ -19,7 +19,10 @@ class PassageInputForm extends Component {
   render () {
     return (
       <div>
-        <textarea onChange={this.handleChange} />
+        <textarea
+          onChange={this.handleChange}
+          placeholder="Please enter a passage"
+        />
 
         <button onClick={this.handleNext} >
           Next

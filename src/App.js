@@ -15,7 +15,10 @@ class App extends Component {
   }
 
   handleNextButtonClick(passage) {
-    this.setState({ passage: passage });
+    if (this.state.passage === '')
+      this.setState({ passage: passage });
+    else
+      this.setState({ passageWithErrors: passage });
   }
 
   render() {
