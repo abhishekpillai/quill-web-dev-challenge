@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      passage: '',
+      passageWithoutErrors: '',
       passageWithErrors: '',
       passageErrorsList: []
     };
@@ -21,10 +21,10 @@ class App extends Component {
   }
 
   handleNextButtonClick(passageFromUserInput) {
-    if (this.state.passage === '') {
-      this.setState({ passage: passageFromUserInput });
+    if (this.state.passageWithoutErrors === '') {
+      this.setState({ passageWithoutErrors: passageFromUserInput });
     } else if (this.state.passageWithErrors === '') {
-      let errorsList = calculateDiffBetweenPassages(this.state.passage, passageFromUserInput);
+      let errorsList = calculateDiffBetweenPassages(this.state.passageWithoutErrors, passageFromUserInput);
       this.setState({
         passageWithErrors: passageFromUserInput,
         passageErrorsList: errorsList
@@ -35,7 +35,7 @@ class App extends Component {
   setStageHeader() {
     if (this.state.passageErrorsList.length)
       return "Assign Concepts to the Edits";
-    else if (this.state.passage === '')
+    else if (this.state.passageWithoutErrors === '')
       return "Enter a passage of text";
     else if (this.state.passageWithErrors === '')
       return "Add some errors to the passage";
@@ -50,7 +50,7 @@ class App extends Component {
     } else {
       return (
         <PassageInputForm
-          passage={this.state.passage}
+          passage={this.state.passageWithoutErrors}
           onNextButtonClick={this.handleNextButtonClick} />
       );
     }
