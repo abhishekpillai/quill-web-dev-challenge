@@ -24,10 +24,11 @@ class App extends Component {
     if (this.state.passageWithoutErrors === '') {
       this.setState({ passageWithoutErrors: passageFromUserInput });
     } else if (this.state.passageWithErrors === '') {
-      let errorsList = calculateDiffBetweenPassages(this.state.passageWithoutErrors, passageFromUserInput);
       this.setState({
         passageWithErrors: passageFromUserInput,
-        passageErrorsList: errorsList
+        passageErrorsList: calculateDiffBetweenPassages(
+          this.state.passageWithoutErrors, passageFromUserInput
+        )
       });
     }
   }
