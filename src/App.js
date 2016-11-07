@@ -3,6 +3,7 @@ const logo = '//d2t498vi8pate3.cloudfront.net/assets/home-header-logo-8d37f41957
 import './App.css';
 
 import PassageInputForm from './components/PassageInputForm'
+import ErrorConceptAssignerList from './components/ErrorConceptAssigner'
 
 class App extends Component {
   constructor(props) {
@@ -14,6 +15,8 @@ class App extends Component {
     };
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.calculateErrorsDiffList = this.calculateErrorsDiffList.bind(this);
+    this.setStage = this.setStage.bind(this);
+    this.setStageHeader = this.setStageHeader.bind(this);
   }
 
   handleNextButtonClick(passage) {
@@ -32,36 +35,45 @@ class App extends Component {
     passageArray.forEach((correctWord, index) => {
       let possibleErrorWord = passageWithErrorsArray[index];
       if (correctWord !== possibleErrorWord) {
-        this.state.passageErrorsList.push([correctWord, possibleErrorWord])
+        this.state.passageErrorsList.push({
+          correctWord: correctWord,
+          errorWord: possibleErrorWord
+        })
       }
     });
 
     return this.state.passageErrorsList;
   }
 
-  render() {
-    let stage;
+  setStageHeader() {
+    if (this.state.passageErrorsList.length)
+      return "Assign Concepts to the Edits";
+    else if (this.state.passage === '')
+      return "Enter a passage of text";
+    else if (this.state.passageWithErrors === '')
+      return "Add some errors to the passage";
+  }
 
-    if (!!this.state.passage && !!this.state.passageWithErrors) {
-      stage = (
-        <div>
-          <h2>Differences</h2>
-          <ul>
-            {
-              this.state.passageErrorsList.map((error, index) => {
-                return <li key={index}>{error[0]} / {error[1]}</li>;
-              })
-            }
-          </ul>
-        </div>
-      )
+  setStage() {
+    if (this.state.passageErrorsList.length) {
+      return (
+        <ErrorConceptAssignerList
+          passageErrors={this.state.passageErrorsList} />
+      );
     } else {
-      stage = (
+      return (
         <PassageInputForm
           passage={this.state.passage}
           onNextButtonClick={this.handleNextButtonClick} />
-      )
+      );
     }
+  }
+
+  render() {
+    let stage, stageHeader;
+
+    stageHeader = this.setStageHeader();
+    stage = this.setStage();
 
     return (
       <div className="App">
@@ -69,6 +81,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to the Quill Web Dev Challenge</h2>
         </div>
+        <h2>{stageHeader}</h2>
         {stage}
       </div>
     );
