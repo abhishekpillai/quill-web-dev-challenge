@@ -5,7 +5,7 @@ import './App.css';
 import { calculateDiffBetweenPassages } from './lib'
 
 import PassageInputForm from './components/PassageInputForm'
-import ErrorConceptAssignerList from './components/ErrorConceptAssigner'
+import ErrorConceptAssignerList from './components/ErrorConceptAssignerList'
 
 class App extends Component {
   constructor(props) {
