@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 const logo = '//d2t498vi8pate3.cloudfront.net/assets/home-header-logo-8d37f4195730352f0055d39f7e88df602e2d67bdab1000ac5886c5a492400c9d.png';
 import './App.css';
 
+import { calculateDiffBetweenPassages } from './lib'
+
 import PassageInputForm from './components/PassageInputForm'
 import ErrorConceptAssignerList from './components/ErrorConceptAssigner'
 
@@ -14,7 +16,6 @@ class App extends Component {
       passageErrorsList: []
     };
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-    this.calculateErrorsDiffList = this.calculateErrorsDiffList.bind(this);
     this.setStage = this.setStage.bind(this);
     this.setStageHeader = this.setStageHeader.bind(this);
   }
@@ -23,30 +24,12 @@ class App extends Component {
     if (this.state.passage === '') {
       this.setState({ passage: inputPassage });
     } else if (this.state.passageWithErrors === '') {
-      let errorsList = this.calculateErrorsDiffList(this.state.passage, inputPassage);
+      let errorsList = calculateDiffBetweenPassages(this.state.passage, inputPassage);
       this.setState({
         passageWithErrors: inputPassage,
         passageErrorsList: errorsList
       });
     }
-  }
-
-  calculateErrorsDiffList(passageWithoutErrors, passageWithErrors) {
-    let passageArray = passageWithoutErrors.split(' ');
-    let passageWithErrorsArray = passageWithErrors.split(' ');
-    let passageErrorsDiffList = [];
-
-    passageArray.forEach((correctWord, index) => {
-      let possibleErrorWord = passageWithErrorsArray[index];
-      if (correctWord !== possibleErrorWord) {
-        passageErrorsDiffList.push({
-          correctWord: correctWord,
-          errorWord: possibleErrorWord
-        })
-      }
-    });
-
-    return passageErrorsDiffList;
   }
 
   setStageHeader() {
