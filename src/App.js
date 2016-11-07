@@ -13,29 +13,30 @@ class App extends Component {
       passageErrorsList: []
     };
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-    this.calculateAndSetErrorsList = this.calculateAndSetErrorsList.bind(this);
+    this.calculateErrorsDiffList = this.calculateErrorsDiffList.bind(this);
   }
 
   handleNextButtonClick(passage) {
     if (this.state.passage === '') {
       this.setState({ passage: passage });
     } else if (this.state.passageWithErrors === '') {
-      this.setState({ passageWithErrors: passage });
-      this.calculateAndSetErrorsList()
+      let errorsList = this.calculateErrorsDiffList(passage);
+      this.setState({ passageWithErrors: passage, passageErrorsList: errorsList });
     }
   }
 
-  calculateAndSetErrorsList() {
+  calculateErrorsDiffList(passageWithErrors) {
     let passageArray = this.state.passage.split(' ');
-    let passageWithErrorsArray = this.state.passage.split(' ');
+    let passageWithErrorsArray = passageWithErrors.split(' ');
 
-    for (var wordIndex in passageArray) {
-      let errorWord = passageWithErrorsArray[wordIndex];
-      if (passageArray[wordIndex] !== errorWord) {
-        this.state.passageErrorsList.push(errorWord)
-        this.setState({ passageErrorsList: this.state.passageErrorsList });
+    passageArray.forEach((correctWord, index) => {
+      let possibleErrorWord = passageWithErrorsArray[index];
+      if (correctWord !== possibleErrorWord) {
+        this.state.passageErrorsList.push([correctWord, possibleErrorWord])
       }
-    }
+    });
+
+    return this.state.passageErrorsList;
   }
 
   render() {
@@ -43,7 +44,16 @@ class App extends Component {
 
     if (!!this.state.passage && !!this.state.passageWithErrors) {
       stage = (
-        <h2>{this.state.passageErrorsList}</h2>
+        <div>
+          <h2>Differences</h2>
+          <ul>
+            {
+              this.state.passageErrorsList.map((error, index) => {
+                return <li key={index}>{error[0]} / {error[1]}</li>;
+              })
+            }
+          </ul>
+        </div>
       )
     } else {
       stage = (
