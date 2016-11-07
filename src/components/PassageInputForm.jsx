@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 class PassageInputForm extends Component {
   constructor(props) {
@@ -28,6 +28,11 @@ class PassageInputForm extends Component {
       </div>
     )
   }
+}
+
+PassageInputForm.propTypes = {
+  passage: PropTypes.string.isRequired,
+  onNextButtonClick: PropTypes.func.isRequired
 }
 
 export default PassageInputForm;

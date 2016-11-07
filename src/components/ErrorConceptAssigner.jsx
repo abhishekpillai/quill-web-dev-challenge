@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 class ErrorConceptAssigner extends Component {
   constructor(props) {
@@ -26,6 +26,11 @@ class ErrorConceptAssigner extends Component {
   }
 }
 
+ErrorConceptAssigner.propTypes = {
+  correctWord: PropTypes.string.isRequired,
+  errorWord: PropTypes.string.isRequired
+}
+
 class ErrorConceptAssignerList extends Component {
   render () {
     return (
@@ -41,6 +46,10 @@ class ErrorConceptAssignerList extends Component {
       </ul>
     )
   }
+}
+
+ErrorConceptAssignerList.propTypes = {
+  passageErrors: PropTypes.array.isRequired
 }
 
 export default ErrorConceptAssignerList;
