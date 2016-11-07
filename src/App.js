@@ -19,30 +19,34 @@ class App extends Component {
     this.setStageHeader = this.setStageHeader.bind(this);
   }
 
-  handleNextButtonClick(passage) {
+  handleNextButtonClick(inputPassage) {
     if (this.state.passage === '') {
-      this.setState({ passage: passage });
+      this.setState({ passage: inputPassage });
     } else if (this.state.passageWithErrors === '') {
-      let errorsList = this.calculateErrorsDiffList(passage);
-      this.setState({ passageWithErrors: passage, passageErrorsList: errorsList });
+      let errorsList = this.calculateErrorsDiffList(this.state.passage, inputPassage);
+      this.setState({
+        passageWithErrors: inputPassage,
+        passageErrorsList: errorsList
+      });
     }
   }
 
-  calculateErrorsDiffList(passageWithErrors) {
-    let passageArray = this.state.passage.split(' ');
+  calculateErrorsDiffList(passageWithoutErrors, passageWithErrors) {
+    let passageArray = passageWithoutErrors.split(' ');
     let passageWithErrorsArray = passageWithErrors.split(' ');
+    let passageErrorsDiffList = [];
 
     passageArray.forEach((correctWord, index) => {
       let possibleErrorWord = passageWithErrorsArray[index];
       if (correctWord !== possibleErrorWord) {
-        this.state.passageErrorsList.push({
+        passageErrorsDiffList.push({
           correctWord: correctWord,
           errorWord: possibleErrorWord
         })
       }
     });
 
-    return this.state.passageErrorsList;
+    return passageErrorsDiffList;
   }
 
   setStageHeader() {
