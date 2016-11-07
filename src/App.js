@@ -20,13 +20,13 @@ class App extends Component {
     this.setStageHeader = this.setStageHeader.bind(this);
   }
 
-  handleNextButtonClick(inputPassage) {
+  handleNextButtonClick(passageFromUserInput) {
     if (this.state.passage === '') {
-      this.setState({ passage: inputPassage });
+      this.setState({ passage: passageFromUserInput });
     } else if (this.state.passageWithErrors === '') {
-      let errorsList = calculateDiffBetweenPassages(this.state.passage, inputPassage);
+      let errorsList = calculateDiffBetweenPassages(this.state.passage, passageFromUserInput);
       this.setState({
-        passageWithErrors: inputPassage,
+        passageWithErrors: passageFromUserInput,
         passageErrorsList: errorsList
       });
     }
