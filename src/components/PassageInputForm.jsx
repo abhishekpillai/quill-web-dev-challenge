@@ -12,7 +12,7 @@ class PassageInputForm extends Component {
     this.setState({passage: event.target.value});
   }
 
-  handleNext(event) {
+  handleNext() {
     this.props.onNextButtonClick(this.state.passage);
   }
 
@@ -24,9 +24,7 @@ class PassageInputForm extends Component {
           value={this.state.passage}
           placeholder="Please enter a passage" />
 
-        <button onClick={this.handleNext} >
-          Next
-        </button>
+        <button onClick={this.handleNext} >Next</button>
       </div>
     )
   }

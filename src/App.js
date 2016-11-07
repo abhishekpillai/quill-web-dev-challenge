@@ -10,27 +10,56 @@ class App extends Component {
     this.state = {
       passage: '',
       passageWithErrors: '',
+      passageErrorsList: []
     };
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+    this.calculateAndSetErrorsList = this.calculateAndSetErrorsList.bind(this);
   }
 
   handleNextButtonClick(passage) {
-    if (this.state.passage === '')
+    if (this.state.passage === '') {
       this.setState({ passage: passage });
-    else
+    } else if (this.state.passageWithErrors === '') {
       this.setState({ passageWithErrors: passage });
+      this.calculateAndSetErrorsList()
+    }
+  }
+
+  calculateAndSetErrorsList() {
+    let passageArray = this.state.passage.split(' ');
+    let passageWithErrorsArray = this.state.passage.split(' ');
+
+    for (var wordIndex in passageArray) {
+      let errorWord = passageWithErrorsArray[wordIndex];
+      if (passageArray[wordIndex] !== errorWord) {
+        this.state.passageErrorsList.push(errorWord)
+        this.setState({ passageErrorsList: this.state.passageErrorsList });
+      }
+    }
   }
 
   render() {
+    let stage;
+
+    if (!!this.state.passage && !!this.state.passageWithErrors) {
+      stage = (
+        <h2>{this.state.passageErrorsList}</h2>
+      )
+    } else {
+      stage = (
+        <PassageInputForm
+          passage={this.state.passage}
+          onNextButtonClick={this.handleNextButtonClick} />
+      )
+    }
+
     return (
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to the Quill Web Dev Challenge</h2>
         </div>
-        <PassageInputForm
-          passage={this.state.passage}
-          onNextButtonClick={this.handleNextButtonClick} />
+        {stage}
       </div>
     );
   }
